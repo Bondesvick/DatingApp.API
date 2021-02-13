@@ -46,15 +46,22 @@ namespace DatingApp.API.Data
 
         public Task<AppUser> GetUserByUsernameAsync(string username)
         {
-            return _context.AppUsers.Include(x => x.Photos).SingleOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower());
+            return _context.AppUsers.Include(x => x.Photos)
+                .Include(x => x.LikedUsers).ThenInclude(l => l.LikedUser)
+                .SingleOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower());
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            var query = _context.AppUsers.AsQueryable();
+            var query = _context.AppUsers.
+                Include(u => u.LikedUsers).ThenInclude(l => l.LikedUser)
+                .Include(u => u.LikedByUsers).ThenInclude(l => l.SourceUser).AsQueryable();
             //.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
             //.AsNoTracking()
             //.AsQueryable();
+
+            var currentUser = await GetUserByUsernameAsync(userParams.CurrentUsername);
+            var userLikes = currentUser.LikedUsers;
 
             query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(u => u.Gender == userParams.Gender);
@@ -70,7 +77,19 @@ namespace DatingApp.API.Data
                 _ => query.OrderByDescending(u => u.LastActive)
             };
 
-            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+            var users = await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+
+            users.ForEach(u =>
+            {
+                if (userLikes.Select(x => x.LikedUserId).Contains(u.Id))
+                {
+                    u.Liked = true;
+                }
+            });
+
+            return users;
+
+            //return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<MemberDto> GetMemberAsync(string username)

@@ -36,6 +36,9 @@ namespace DatingApp.API.Data
             var users = _context.AppUsers.OrderBy(u => u.UserName).AsQueryable();
             var likes = _context.Likes.AsQueryable();
 
+            //var currentUser = await GetUserByUsernameAsync(likesParams.CurrentUsername);
+            //var userLikes = currentUser.LikedUsers;
+
             if (likesParams.Predicate == "liked")
             {
                 likes = likes.Where(l => l.SourceUserId == likesParams.UserId);
