@@ -27,13 +27,13 @@ namespace DatingApp.API.Data
 
         public async Task<AppUser> GetUserWithLikes(int userId)
         {
-            return await _context.AppUsers.Include(x => x.LikedByUsers).Include(x => x.LikedUsers)
+            return await _context.Users.Include(x => x.LikedByUsers).Include(x => x.LikedUsers)
                 .FirstOrDefaultAsync(x => x.Id == userId);
         }
 
         public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
-            var users = _context.AppUsers.OrderBy(u => u.UserName).AsQueryable();
+            var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
             var likes = _context.Likes.AsQueryable();
 
             //var currentUser = await GetUserByUsernameAsync(likesParams.CurrentUsername);
