@@ -49,7 +49,7 @@ namespace DatingApp.API.SignalR
             await Clients.Caller.SendAsync("ReceiveMessageThread", message);
         }
 
-        public override async Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
             var group = await RemoveFromMessageGroup();
             await Clients.Group(group.Name).SendAsync("UpdatedGroup", group);
