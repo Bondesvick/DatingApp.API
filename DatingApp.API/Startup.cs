@@ -17,6 +17,7 @@ using DatingApp.API.Extensions;
 using DatingApp.API.Interfaces;
 using DatingApp.API.Middleware;
 using DatingApp.API.Services;
+using DatingApp.API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -43,6 +44,7 @@ namespace DatingApp.API
 
             services.AddControllers();
             services.AddCors();
+            services.AddSignalR();
 
             services.AddSwaggerGen(c =>
             {
@@ -90,15 +92,19 @@ namespace DatingApp.API
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //app.UseCors(x => x
+            //    .AllowAnyOrigin()
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod());
+            //.AllowCredentials());
 
             //app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200/"));
 
-            //app.UseCors(x => x
-            //    .AllowAnyMethod()
-            //    .AllowAnyHeader()
-            //    .SetIsOriginAllowed(origin => true) // allow any origin
-            //    .AllowCredentials());
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -106,6 +112,8 @@ namespace DatingApp.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }
