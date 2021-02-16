@@ -37,6 +37,22 @@ namespace DatingApp.API.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accesToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accesToken) && path.StartsWithSegments("/hubs"))
+                            {
+                                context.Token = accesToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization(opt =>
