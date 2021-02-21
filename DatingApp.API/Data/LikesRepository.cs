@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DatingApp.API.DTOs;
+﻿using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
 using DatingApp.API.Extensions;
 using DatingApp.API.Helpers;
 using DatingApp.API.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DatingApp.API.Data
 {

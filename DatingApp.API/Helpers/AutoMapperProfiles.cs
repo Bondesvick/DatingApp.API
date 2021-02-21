@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DatingApp.API.DTOs;
 using DatingApp.API.Entities;
 using DatingApp.API.Extensions;
+using System.Linq;
 
 namespace DatingApp.API.Helpers
 {

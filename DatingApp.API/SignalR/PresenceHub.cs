@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DatingApp.API.Extensions;
+﻿using DatingApp.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading.Tasks;
 
 namespace DatingApp.API.SignalR
 {

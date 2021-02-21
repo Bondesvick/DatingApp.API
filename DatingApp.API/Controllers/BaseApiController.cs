@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DatingApp.API.Helpers;
 
 namespace DatingApp.API.Controllers
 {

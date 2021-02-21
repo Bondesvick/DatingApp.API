@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using DatingApp.API.Helpers;
 using DatingApp.API.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace DatingApp.API.Services
 {

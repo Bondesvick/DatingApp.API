@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using DatingApp.API.Helpers;
+﻿using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 namespace DatingApp.API.Extensions
 {
